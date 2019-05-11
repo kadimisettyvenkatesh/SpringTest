@@ -19,9 +19,11 @@ public class CustomSecurityAspect {
 
     @Around("com.example.SpringJwt.annotation.CustomSecurityAspect.customSecurityAnnotation()")
     public Object doSomething(ProceedingJoinPoint pjp) throws Throwable {
-    	System.out.println("in the method aroung*****************************************");
+    	// System.out.println("in the method aroung*****************************************:"+cust.priv());
         HttpServletRequest req = getRequest();
         System.out.println("auhtarization:"+req.getHeader("Authorization"));
+        System.out.println("user:"+req.getAttribute("UserInfo"));
+
         // Check header values
         // Throw Spring's AccessDeniedException if needed
         return pjp.proceed();
