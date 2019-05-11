@@ -2,6 +2,7 @@ package com.example.SpringJwt.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.SpringJwt.annotation.Authorized;
 import com.example.SpringJwt.exception.ResourceNotFoundException;
 import com.example.SpringJwt.model.Note;
 import com.example.SpringJwt.repository.NoteRepository;
@@ -26,9 +28,10 @@ public class NoteController {
 
     @Autowired
     NoteRepository noteRepository;
-
+    
+    @Authorized
     @GetMapping("/notes")
-    public List<Note> getAllNotes() {
+    public List<Note> getAllNotes(HttpServletRequest request) {
         return noteRepository.findAll();
     }
     

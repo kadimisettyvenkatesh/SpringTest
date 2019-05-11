@@ -1,5 +1,9 @@
 package com.example.SpringJwt.security;
 
+import static com.example.SpringJwt.security.SecurityConstants.HEADER_STRING;
+import static com.example.SpringJwt.security.SecurityConstants.SECRET;
+import static com.example.SpringJwt.security.SecurityConstants.TOKEN_PREFIX;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -8,19 +12,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
-import static com.example.SpringJwt.security.SecurityConstants.EXPIRATION_TIME;
-import static com.example.SpringJwt.security.SecurityConstants.HEADER_STRING;
-import static com.example.SpringJwt.security.SecurityConstants.SECRET;
-import static com.example.SpringJwt.security.SecurityConstants.TOKEN_PREFIX;
 
 import io.jsonwebtoken.Jwts;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+	 @Autowired
+	 private UserDetailsService userDetailsService;
+	 
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
@@ -48,6 +52,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
+            request.setAttribute("UserInfo", user);
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }

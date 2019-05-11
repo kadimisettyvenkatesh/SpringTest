@@ -17,7 +17,7 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
     
-    @CustomSecurityAnnotation
+    @CustomSecurityAnnotation(priv=1235)
     @GetMapping("/books")
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
