@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.SpringJwt.annotation.CustomSecurityAnnotation;
 import com.example.SpringJwt.model.Book;
 import com.example.SpringJwt.model.Publisher;
 import com.example.SpringJwt.repository.BookRepository;
@@ -18,6 +19,7 @@ public class PublisherController {
     @Autowired
     private PublisherRepository publisherRepository;
     
+    @CustomSecurityAnnotation(priv=9999)
     @GetMapping("/publishers")
     public List<Publisher> getAllPublishers() {
         return publisherRepository.findAll();
