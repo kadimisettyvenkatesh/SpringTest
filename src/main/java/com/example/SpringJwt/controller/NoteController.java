@@ -29,7 +29,7 @@ public class NoteController {
     @Autowired
     NoteRepository noteRepository;
     
-    @Authorized
+    @Authorized(enabled=false)
     @GetMapping("/notes")
     public List<Note> getAllNotes(HttpServletRequest request) {
         return noteRepository.findAll();

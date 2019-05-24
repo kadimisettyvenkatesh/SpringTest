@@ -1,11 +1,14 @@
 package com.example.SpringJwt.annotation;
 
+import java.lang.reflect.Method;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,9 +26,10 @@ public class CustomSecurityAspect {
         HttpServletRequest req = getRequest();
         System.out.println("auhtarization:"+req.getHeader("Authorization"));
         System.out.println("user:"+req.getAttribute("UserInfo"));
-
-        // Check header values
-        // Throw Spring's AccessDeniedException if needed
+        MethodSignature signature = (MethodSignature) pjp.getSignature();
+		Method m =signature.getMethod();
+		CustomSecurityAnnotation customAnnotation = m.getAnnotation(CustomSecurityAnnotation.class);
+		System.out.println("Method Privelige:"+customAnnotation.priv());
         return pjp.proceed();
     }
 
