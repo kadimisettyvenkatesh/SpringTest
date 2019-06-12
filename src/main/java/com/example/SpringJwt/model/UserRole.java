@@ -12,28 +12,26 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
-public class Inventory extends AuditModel {
+public class UserRole extends AuditModel {
 	
 	@Id
 	@GeneratedValue
 	private Long id;
-	private float cost;
-	private boolean isAvailable;
 	
 	@ManyToOne(fetch=FetchType.EAGER, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Product product;
+    private User user;
 	
 	
 	@ManyToOne(fetch=FetchType.EAGER, optional = false)
-    @JoinColumn(name = "store_id", nullable = false)
+    @JoinColumn(name = "role_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private Store store;
-	
+    private Role role;
+
+
 	public Long getId() {
 		return id;
 	}
@@ -44,43 +42,23 @@ public class Inventory extends AuditModel {
 	}
 
 
-	public float getCost() {
-		return cost;
+	public User getUser() {
+		return user;
 	}
 
 
-	public void setCost(float cost) {
-		this.cost = cost;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 
-	public boolean isAvailable() {
-		return isAvailable;
+	public Role getRole() {
+		return role;
 	}
 
 
-	public void setAvailable(boolean isAvailable) {
-		this.isAvailable = isAvailable;
-	}
-
-
-	public Product getProduct() {
-		return product;
-	}
-
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-
-	public Store getStore() {
-		return store;
-	}
-
-
-	public void setStore(Store store) {
-		this.store = store;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 }
